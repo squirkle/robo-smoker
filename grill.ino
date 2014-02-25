@@ -38,8 +38,10 @@ void loop() {
     if (pid.GetMode() != AUTOMATIC) {
       pid.SetMode(AUTOMATIC);
     }
-    if ((output == 0 || output == 255) && pid.GetKi() != 0) {
-      pid.SetTunings(P, 0, D);
+    if (output == 0 || output == 255) {
+      if (pid.GetKi() != 0) {
+        pid.SetTunings(P, 0, D);
+      }
     } else if (pid.GetKi() != I) {
       pid.SetTunings(P, I, D);
     }
