@@ -8,6 +8,7 @@
 
 // Specify the links and initial tuning parameters
 double thermTemp, output, targetTemp;
+
 // recos for PID from heatermeter are 3, .1, 15
 double P = 2.0;
 double I = 0.1;
@@ -21,7 +22,7 @@ Fan fan(7, 115, 65);
 TargetKnob targetKnob(A1);
 
 void setup() {
-  pid.setOutputLimits(fan.minPower - 1, fan.maxPower);
+  pid.SetOutputLimits(fan.minPower - 1, fan.maxPower);
 }
 
 void loop() {
@@ -45,3 +46,5 @@ void loop() {
 
   delay(50);
 }
+
+
