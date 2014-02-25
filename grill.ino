@@ -17,10 +17,11 @@ PID pid(&thermTemp, &output, &targetTemp, P, I, D, DIRECT);
 Display display(12, 11, 5, 4, 3, 2, &thermTemp, &targetTemp);
 Thermistor therm(A0, 2.4723753e-4, 2.3402251e-4, 1.3879768e-7, 10000);
 PauseButton pauseButton(6);
-Fan fan(7, 115);
+Fan fan(7, 115, 65);
 TargetKnob targetKnob(A1);
 
 void setup() {
+  pid.setOutputLimits(fan.minPower - 1, fan.maxPower);
 }
 
 void loop() {
@@ -38,20 +39,9 @@ void loop() {
     if (pid.GetMode() != AUTOMATIC) {
       pid.SetMode(AUTOMATIC);
     }
-    if (output == 0 || output == 255) {
-      setI(0);
-    } else {
-      setI(I);
-    }
     pid.Compute();
     fan.powerTo(output);
   }
 
   delay(50);
-}
-
-void setI(double i) {
-  if (pid.GetKi() != i) {
-    pid.SetTunings(P, i, D);
-  }
 }

@@ -3,19 +3,20 @@
 class Fan {
   private:
     int pin;
-    int minPower;
   public:
-    Fan(int p, int x);
+    Fan(int p, int min, int maxMulti);
+    int minPower;
+    int maxPower;
     void powerTo(int);
 };
 
-Fan::Fan (int p, int x) {
+Fan::Fan (int p, int min, int maxMulti) {
   pin = p;
-  minPower = x;
+  minPower = min;
+  maxPower = ((255 - minPower) * maxMulti) + minPower;
 }
 
 void Fan::powerTo(int output) {
-  int normalizedOutput = output == 0 ? 0 : map(output, 0, 255, minPower, 255);
-  // int normalizedOutput = output; //(output < minPower) ? 0 : output;
+  int normalizedOutput = output < minPower ? 0 : output;
   analogWrite(pin, normalizedOutput);
 }
