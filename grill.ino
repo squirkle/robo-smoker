@@ -21,8 +21,6 @@ Fan fan(7, 115);
 TargetKnob targetKnob(A1);
 
 void setup() {
-  // turn the PID on
-  // pid.SetMode(AUTOMATIC);
 }
 
 void loop() {
@@ -36,14 +34,13 @@ void loop() {
       pid.SetMode(MANUAL);
     }
     fan.powerTo(0);
-    return;
   } else {
     if (pid.GetMode() != AUTOMATIC) {
       pid.SetMode(AUTOMATIC);
     }
-    if ((output == 0 || output == 100) && pid.GetKi() !== 0) {
+    if ((output == 0 || output == 255) && pid.GetKi() != 0) {
       pid.SetTunings(P, 0, D);
-    } else if (pid.GetKi() !== I) {
+    } else if (pid.GetKi() != I) {
       pid.SetTunings(P, I, D);
     }
     pid.Compute();
