@@ -39,15 +39,19 @@ void loop() {
       pid.SetMode(AUTOMATIC);
     }
     if (output == 0 || output == 255) {
-      if (pid.GetKi() != 0) {
-        pid.SetTunings(P, 0, D);
-      }
-    } else if (pid.GetKi() != I) {
-      pid.SetTunings(P, I, D);
+      setI(0);
+    } else {
+      setI(I);
     }
     pid.Compute();
     fan.powerTo(output);
   }
 
   delay(50);
+}
+
+void setI(double i) {
+  if (pid.GetKi() != i) {
+    pid.SetTunings(P, i, D);
+  }
 }
